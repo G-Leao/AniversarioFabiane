@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz aniversário 💖</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="hearts"></div>
+<canvas id="fx"></canvas>
+
+<section id="hero">
+  <p class="sub" style="margin:0 0 12px">hoje o dia é todo seu</p>
+  <h1 class="script"><span id="tw"></span><span class="cursor"></span></h1>
+  <p class="sub" id="heroSub"></p>
+  <div class="hint">role para baixo ↓</div>
+</section>
+
+<section>
+  <h2 class="script rv z">Falta pouco para o seu dia</h2>
+  <div class="cd rv u" id="cd"></div>
+  <p class="sub rv u" id="cdNote"></p>
+</section>
+
+<section>
+  <h2 class="script rv l">Uma carta pra você</h2>
+  <div class="env rv z" id="env" role="button" tabindex="0" aria-label="Abrir carta"><i>💌</i></div>
+  <p class="sub rv u" id="envHint">toque no envelope</p>
+  <div class="letter" id="letter"></div>
+</section>
+
+<section>
+  <h2 class="script rv r">Motivos pra te amar</h2>
+  <p class="sub rv u" style="margin:-12px 0 24px">toque nas cartas para virar</p>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section>
+  <h2 class="script rv rot">Uma última surpresa</h2>
+  <button class="btn rv z" id="btn">Clique aqui 🎁</button>
+  <div id="msg" class="script" aria-live="polite"></div>
+</section>
+
+<footer class="script" style="font-size:1.6rem" id="foot"></footer>
+
+<script src="script.js"></script>
+</body>
+</html>
