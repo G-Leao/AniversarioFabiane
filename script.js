@@ -25,7 +25,14 @@ const CONFIG = {
     "Sua fé e sua força me inspiram 🙏💪",
     "Que este novo ano seja lindo como você 🥰",
     "Te amo, Fabiane ❤️💙💜"
-  ]
+  ],
+  musica: {
+    titulo: "Bem",
+    artista: "Chapéu de Palha",
+    arquivo: "",     // OPÇÃO 1 (recomendada): nome do mp3 na mesma pasta, ex.: "bem.mp3"
+    youtubeId: "",   // OPÇÃO 2: ID do vídeo do YouTube (a parte depois de v=)
+    texto: "essa música é pra você, Ursa. Pate de atum 🤙"
+  }
 };
 /* ======================= */
 const $=s=>document.querySelector(s);
@@ -48,7 +55,7 @@ function alvo(){const n=new Date();let t=new Date(n.getFullYear(),CONFIG.mes-1,C
   const hoje=n.getMonth()===CONFIG.mes-1&&n.getDate()===CONFIG.dia;
   if(!hoje&&t<n)t=new Date(n.getFullYear()+1,CONFIG.mes-1,CONFIG.dia);return{t,hoje}}
 function tick(){const{t,hoje}=alvo();
-  if(hoje){$("#cd").innerHTML='<div style="padding:24px 32px"><b>HOJE! 🎉</b></div>';$("#cdNote").textContent="É o seu dia. Aproveite cada segundo.";return}
+  if(hoje){$("#cd").innerHTML='<div style="padding:24px 32px"><b>HOJE! 🎉</b></div>';const n=$("#cdNote");if(!n.dataset.h){n.dataset.h=1;n.innerHTML='É o seu dia. Aproveite cada segundo.<br><br><button class="btn" onclick="mostrarPresente()">🎁 Abrir surpresa</button>'}return}
   let s=Math.max(0,(t-new Date())/1000|0);const v=[["dias",s/86400|0],["horas",s%86400/3600|0],["min",s%3600/60|0],["seg",s%60]];
   $("#cd").innerHTML=v.map(([l,n])=>`<div><b>${String(n).padStart(2,"0")}</b><span>${l}</span></div>`).join("");
   $("#cdNote").textContent="Cada segundo me deixa mais ansioso pra comemorar com você."}
@@ -93,3 +100,44 @@ let last=0;addEventListener("pointermove",e=>{const n=Date.now();if(n-last<70)re
 
 $("#foot").textContent=`Pate de atum 🤙 Feito com amor para ${nome} 💖`;
 if(alvo().hoje)setTimeout(()=>boom(innerWidth/2,innerHeight/3,120),1500);
+
+// Surpresa final: caixinha com o disco de vinil tocando "Bem" (use ?teste na URL pra ver antes do dia)
+(function(){
+  const g=$("#gift"),m=CONFIG.musica,vin=$("#vinyl"),btn=$("#playbtn"),aud=$("#aud");
+  let yt=null,tocando=false;
+  $("#songTitle").textContent=`“${m.titulo}”`;
+  $("#songBy").textContent=`${m.artista}: ${m.texto}`;
+  $("#songLink").href=`https://www.youtube.com/results?search_query=${encodeURIComponent(m.artista+" "+m.titulo)}`;
+  const temFonte=!!(m.arquivo||m.youtubeId);
+  function setPlay(on){tocando=on;vin.classList.toggle("play",on);btn.textContent=on?"⏸ Pausar":"▶ Tocar"}
+  function carregarYT(){
+    const go=()=>{yt=new YT.Player("yt",{width:"2",height:"2",videoId:m.youtubeId,
+      playerVars:{autoplay:1,playsinline:1,loop:1,playlist:m.youtubeId},
+      events:{onReady:e=>e.target.playVideo(),onStateChange:e=>setPlay(e.data===1)}})};
+    if(window.YT&&YT.Player)go();
+    else{window.onYouTubeIframeAPIReady=go;const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s)}
+  }
+  function tocar(){
+    if(m.arquivo){aud.src=m.arquivo;aud.loop=true;aud.play().then(()=>setPlay(true)).catch(()=>setPlay(false))}
+    else if(m.youtubeId)carregarYT();
+  }
+  function abrirPresente(){
+    $("#gbtn").style.display="none";$("#gtxt").style.display="none";
+    const s=$("#song");s.style.display="block";s.classList.add("a-pop");
+    if(temFonte){btn.style.display="";tocar()}
+    else{btn.style.display="none";$("#songLink").style.display="inline-block"}
+    boom(innerWidth/2,innerHeight/2,100);boom(innerWidth*.2,innerHeight*.7,50);boom(innerWidth*.8,innerHeight*.7,50);
+  }
+  btn.onclick=()=>{
+    if(m.arquivo){tocando?(aud.pause(),setPlay(false)):aud.play().then(()=>setPlay(true))}
+    else if(yt&&yt.playVideo){tocando?yt.pauseVideo():yt.playVideo()}
+  };
+  aud.onended=()=>setPlay(false);
+  $("#gbtn").onclick=abrirPresente;
+  $("#gclose").onclick=()=>{
+    g.classList.remove("show");aud.pause();if(yt&&yt.pauseVideo)yt.pauseVideo();setPlay(false);
+    $("#song").style.display="none";$("#gbtn").style.display="";$("#gtxt").style.display="";
+  };
+  window.mostrarPresente=()=>g.classList.add("show");
+  if(alvo().hoje||location.search.includes("teste"))setTimeout(()=>g.classList.add("show"),2500);
+})();
