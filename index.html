@@ -45,6 +45,24 @@
 
 <footer class="script" style="font-size:1.6rem" id="foot"></footer>
 
+<div id="gift" role="dialog" aria-modal="true" aria-label="Surpresa de aniversário">
+  <div class="gbox">
+    <button class="gbtn" id="gbtn" aria-label="Abrir presente">🎁</button>
+    <p class="gtxt script" id="gtxt">Tem uma surpresa pra você… toque na caixinha</p>
+    <div class="song" id="song">
+      <div class="note">🎵</div>
+      <h3 class="script" id="songTitle"></h3>
+      <p id="songBy"></p>
+      <div class="disc"><div class="vinyl" id="vinyl"><div class="label">🎵</div></div></div>
+      <audio id="aud" preload="auto"></audio>
+      <div id="yt"></div>
+      <button class="btn" id="playbtn">⏸ Pausar</button>
+      <a class="btn" id="songLink" target="_blank" rel="noopener">Ouvir agora 🎧</a>
+      <button class="gclose" id="gclose">fechar</button>
+    </div>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
