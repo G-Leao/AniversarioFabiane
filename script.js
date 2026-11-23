@@ -29,7 +29,7 @@ const CONFIG = {
   musica: {
     titulo: "Bem",
     artista: "Chapéu de Palha",
-    arquivo: "",     // OPÇÃO 1 (recomendada): nome do mp3 na mesma pasta, ex.: "bem.mp3"
+    arquivo: "fotos/bem.mpeg",     // OPÇÃO 1 (recomendada): nome do mp3 na mesma pasta, ex.: "bem.mp3"
     youtubeId: "",   // OPÇÃO 2: ID do vídeo do YouTube (a parte depois de v=)
     texto: "essa música é pra você, Ursa. Pate de atum 🤙"
   }
